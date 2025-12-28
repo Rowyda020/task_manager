@@ -2,7 +2,7 @@ const Database = require('better-sqlite3');
 
 const db = new Database('database.db');
 
-// Users table
+
 db.prepare(`
   CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -12,7 +12,7 @@ db.prepare(`
   )
 `).run();
 
-// Tasks table
+
 db.prepare(`
   CREATE TABLE IF NOT EXISTS tasks (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
