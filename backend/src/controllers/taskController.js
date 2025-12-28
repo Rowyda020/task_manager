@@ -1,8 +1,6 @@
 const db = require('../models/db');
 
-/**
- * CREATE TASK
- */
+
 exports.createTask = (req, res) => {
   const { title, description } = req.body;
 
@@ -20,9 +18,7 @@ exports.createTask = (req, res) => {
   res.status(201).json({ message: 'Task created' });
 };
 
-/**
- * GET USER TASKS
- */
+
 exports.getTasks = (req, res) => {
   const tasks = db.prepare(`
     SELECT * FROM tasks
@@ -33,9 +29,7 @@ exports.getTasks = (req, res) => {
   res.json(tasks);
 };
 
-/**
- * UPDATE TASK
- */
+
 exports.updateTask = (req, res) => {
   const { id } = req.params;
   const { title, description, status } = req.body;
@@ -62,9 +56,7 @@ exports.updateTask = (req, res) => {
   res.json({ message: 'Task updated' });
 };
 
-/**
- * DELETE TASK
- */
+
 exports.deleteTask = (req, res) => {
   const { id } = req.params;
 
