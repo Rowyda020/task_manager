@@ -17,7 +17,7 @@ A full-stack Task Management application built with Node.js, Express, React, and
 ## Getting Started
 
 ### Clone the repository
-git clone https://github.com/YourUsername/task_manager.git
+git clone https://github.com/Rowyda020/task_manager.git
 cd task_manager
 
 ### Run with Docker
