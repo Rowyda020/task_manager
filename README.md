@@ -43,3 +43,43 @@ npm run dev
 Create a `.env` file in the backend folder:
 PORT=5000  
 JWT_SECRET=your_secret_key
+
+##Endpoints
+
+POST /auth/register
+Body: 
+{
+  "username": "your_username",
+  "email": "your_email",
+  "password": "your_password"
+}
+
+
+POST /auth/login
+Body:
+{
+  "email": "your_email",
+  "password": "your_password"
+}
+
+
+POST /tasks
+Body:
+{
+  "title": "Task title",
+  "description": "Task description"
+}
+
+
+
+GET /tasks
+
+PUT /tasks/:id
+Body:
+{
+  "title": "Updated title",
+  "description": "Updated description"
+}
+
+DELETE /tasks/:id
+
