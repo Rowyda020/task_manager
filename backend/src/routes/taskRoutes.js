@@ -8,7 +8,7 @@ const {
   deleteTask
 } = require('../controllers/taskController');
 
-router.use(auth); // 🔐 protect all routes below
+router.use(auth); 
 
 router.post('/', createTask);
 router.get('/', getTasks);

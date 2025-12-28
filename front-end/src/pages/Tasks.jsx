@@ -4,8 +4,10 @@ import api from '../api';
 export default function Tasks() {
   const [tasks, setTasks] = useState([]);
   const [title, setTitle] = useState('');
-  const [editingId, setEditingId] = useState(null); // null or task.id
+  const [description, setDescription] = useState('');
+  const [editingId, setEditingId] = useState(null);
   const [editTitle, setEditTitle] = useState('');
+  const [editDescription, setEditDescription] = useState('');
 
   const loadTasks = async () => {
     try {
@@ -21,11 +23,15 @@ export default function Tasks() {
   }, []);
 
   const addTask = async (e) => {
-    e?.preventDefault();
+    e.preventDefault();
     if (!title.trim()) return;
     try {
-      await api.post('/tasks', { title: title.trim() });
+      await api.post('/tasks', {
+        title: title.trim(),
+        description: description.trim(),
+      });
       setTitle('');
+      setDescription('');
       loadTasks();
     } catch (err) {
       console.error('Failed to add task');
@@ -55,6 +61,7 @@ export default function Tasks() {
   const startEdit = (task) => {
     setEditingId(task.id);
     setEditTitle(task.title);
+    setEditDescription(task.description || '');
   };
 
   const saveEdit = async () => {
@@ -63,7 +70,10 @@ export default function Tasks() {
       return;
     }
     try {
-      await api.put(`/tasks/${editingId}`, { title: editTitle.trim() });
+      await api.put(`/tasks/${editingId}`, {
+        title: editTitle.trim(),
+        description: editDescription.trim(),
+      });
       loadTasks();
       cancelEdit();
     } catch (err) {
@@ -74,6 +84,7 @@ export default function Tasks() {
   const cancelEdit = () => {
     setEditingId(null);
     setEditTitle('');
+    setEditDescription('');
   };
 
   const logout = () => {
@@ -95,83 +106,124 @@ export default function Tasks() {
             </button>
           </div>
 
-          {/* Add Task Form */}
-          <form onSubmit={addTask} className="flex gap-3">
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Add a new task..."
-              className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
-            />
+          
+          <form onSubmit={addTask} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Title
+              </label>
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="Enter task title..."
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Description (optional)
+              </label>
+              <textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Add details, notes, or steps..."
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition resize-none"
+                rows="4"
+              />
+            </div>
+
             <button
               type="submit"
-              className="px-6 py-3 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition"
+              className="w-full bg-indigo-600 text-white py-3 rounded-lg font-medium hover:bg-indigo-700 transition"
             >
-              Add
+              Add Task
             </button>
           </form>
 
-          {/* Task List */}
+        
           {tasks.length === 0 ? (
-            <p className="text-center text-gray-500 py-12">No tasks yet. Add one above!</p>
+            <p className="text-center text-gray-500 py-12">No tasks yet. Create one above!</p>
           ) : (
-            <ul className="space-y-3">
+            <ul className="space-y-4">
               {tasks.map((task) => (
                 <li
                   key={task.id}
-                  className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition group"
+                  className="p-6 bg-gray-50 rounded-lg hover:bg-gray-100 transition group"
                 >
-                  <input
-                    type="checkbox"
-                    checked={task.status === 'done'}
-                    onChange={() => toggleStatus(task)}
-                    className="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500 cursor-pointer"
-                  />
-
-                  {editingId === task.id ? (
+                  <div className="flex items-start gap-4">
                     <input
-                      type="text"
-                      value={editTitle}
-                      onChange={(e) => setEditTitle(e.target.value)}
-                      onBlur={saveEdit}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') saveEdit();
-                        if (e.key === 'Escape') cancelEdit();
-                      }}
-                      autoFocus
-                      className="flex-1 px-3 py-1 border border-indigo-300 rounded bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      type="checkbox"
+                      checked={task.status === 'done'}
+                      onChange={() => toggleStatus(task)}
+                      className="mt-1 w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500 cursor-pointer"
                     />
-                  ) : (
-                    <span
-                      className={`flex-1 cursor-pointer ${
-                        task.status === 'done'
-                          ? 'line-through text-gray-500'
-                          : 'text-gray-800'
-                      }`}
-                      onClick={() => toggleStatus(task)}
-                    >
-                      {task.title}
-                    </span>
-                  )}
 
-                  <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition">
-                    {editingId !== task.id && (
+                    <div className="flex-1">
+                      {editingId === task.id ? (
+                        <div className="space-y-3">
+                          <input
+                            type="text"
+                            value={editTitle}
+                            onChange={(e) => setEditTitle(e.target.value)}
+                            autoFocus
+                            className="w-full px-3 py-2 border border-indigo-300 rounded bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                          />
+                          <textarea
+                            value={editDescription}
+                            onChange={(e) => setEditDescription(e.target.value)}
+                            placeholder="Description..."
+                            className="w-full px-3 py-2 border border-indigo-300 rounded bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+                            rows="3"
+                          />
+                          <div className="flex gap-2">
+                            <button onClick={saveEdit} className="text-green-600 hover:text-green-800">
+                              Save
+                            </button>
+                            <button onClick={cancelEdit} className="text-gray-600 hover:text-gray-800">
+                              Cancel
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <span
+                            className={`block text-lg font-medium cursor-pointer ${
+                              task.status === 'done' ? 'line-through text-gray-500' : 'text-gray-900'
+                            }`}
+                            onClick={() => toggleStatus(task)}
+                          >
+                            {task.title}
+                          </span>
+                          {task.description && (
+                            <p className="mt-2 text-gray-600 text-sm leading-relaxed">
+                              {task.description}
+                            </p>
+                          )}
+                        </>
+                      )}
+                    </div>
+
+                    <div className="flex gap-3 opacity-0 group-hover:opacity-100 transition">
+                      {editingId !== task.id && (
+                        <button
+                          onClick={() => startEdit(task)}
+                          className="text-gray-500 hover:text-indigo-600"
+                          title="Edit"
+                        >
+                          ✏️
+                        </button>
+                      )}
                       <button
-                        onClick={() => startEdit(task)}
-                        className="text-gray-500 hover:text-indigo-600 transition"
-                        title="Edit"
+                        onClick={() => deleteTask(task.id)}
+                        className="text-red-500 hover:text-red-700"
+                        title="Delete"
                       >
-                        ✏️
+                        Delete
                       </button>
-                    )}
-                    <button
-                      onClick={() => deleteTask(task.id)}
-                      className="text-red-500 hover:text-red-700 font-medium transition"
-                      title="Delete"
-                    >
-                      Delete
-                    </button>
+                    </div>
                   </div>
                 </li>
               ))}
