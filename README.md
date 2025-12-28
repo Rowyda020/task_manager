@@ -82,4 +82,7 @@ Body:
 }
 
 DELETE /tasks/:id
+<img width="1894" height="928" alt="Screenshot 2025-12-28 201059" src="https://github.com/user-attachments/assets/6bc41717-5f6f-44f2-83b4-6092c2d40a38" />
+<img width="1887" height="1008" alt="Screenshot 2025-12-28 201302" src="https://github.com/user-attachments/assets/5d681119-4f1a-4cdb-a862-0cfb75856810" />
+<img width="1877" height="930" alt="Screenshot 2025-12-28 201124" src="https://github.com/user-attachments/assets/721240ff-f248-4125-b94d-66a0616195f6" />
 
