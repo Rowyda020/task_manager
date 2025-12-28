@@ -44,7 +44,7 @@ Create a `.env` file in the backend folder:
 PORT=5000  
 JWT_SECRET=your_secret_key
 
-##Endpoints
+## Endpoints
 
 POST /auth/register
 Body: 
