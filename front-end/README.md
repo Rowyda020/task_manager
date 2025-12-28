@@ -1,55 +1,16 @@
-# Task Manager
+# React + Vite
 
-A full-stack Task Management application built with Node.js, Express, React, and SQLite. It allows users to register, login, and manage tasks.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Features
-- User authentication (Register/Login)
-- Create, read, update, delete tasks
-- RESTful API
-- Fully containerized with Docker
+Currently, two official plugins are available:
 
-## Tech Stack
-- Backend: Node.js, Express
-- Frontend: React
-- Database: SQLite (Better-SQLite3)
-- Containerization: Docker & Docker Compose
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Getting Started
+## React Compiler
 
-### Clone the repository
-git clone https://github.com/YourUsername/task_manager.git
-cd task_manager
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-### Run with Docker
-docker-compose up --build
+## Expanding the ESLint configuration
 
-Backend runs on: http://localhost:5000  
-Frontend runs on: http://localhost:5173
-
-### Run Locally
-
-#### Backend
-cd backend
-npm install
-npm start
-
-#### Frontend
-cd front-end
-npm install
-npm run dev
-
-## Project Structure
-task_manager/
-├─ backend/
-│  ├─ src/
-│  └─ package.json
-├─ front-end/
-│  ├─ src/
-│  └─ package.json
-├─ docker-compose.yml
-└─ README.md
-
-## Environment Variables
-Create a `.env` file in the backend folder:
-PORT=5000  
-JWT_SECRET=your_secret_key
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
